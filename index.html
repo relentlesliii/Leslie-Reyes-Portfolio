@@ -1,232 +1,379 @@
+</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>AutoMe: Automation Calculator</title>
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work Portfolio</title>
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f9;
-      color: #333;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      color: #1e3a8a;
-    }
-    .task-input, .subtask-input {
+    /* Reset and base styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; scroll-behavior: smooth; font-weight: 10; /* Thin font weight */}
+
+    /* Navigation bar */
+   .nav {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0.75rem 2rem;
       display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
+      gap: 1.5rem;
+      align-items: center;
+      border-radius: 40px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(16px) saturate(1.5);
+      -webkit-backdrop-filter: blur(16px) saturate(1.5);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      z-index: 998;
+      transition: color 0.3s ease;
     }
-    input, button {
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    input[type="number"] {
-      width: 80px;
-    }
-    button {
-      background: #1e40af;
+
+    .nav a {
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.25rem 0.5rem;
+      transition: color 0.3s ease, opacity 0.3s ease;
       color: white;
-      border: none;
-      cursor: pointer;
-      transition: background 0.3s;
     }
-    button:hover {
-      background: #2563eb;
+
+    .nav.scrolled a {
+      color: black;
     }
-    .task {
-      background: #e2e8f0;
+
+    .nav a:hover {
+      opacity: 0.7;
+    }
+
+
+    /* Section styling */
+    section {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      padding: 40px 20px;
+      color: #fff;
+    }
+    #about { background-image: url("assets/bg.gif"); background-size: cover; padding-left: 10%;}
+    #skills {background: radial-gradient(circle, rgb(37, 23, 56) 0%, #0b0411 100%);
+    
+    /* Optional: ensure it covers the whole area */
+    background-repeat: no-repeat;
+    background-attachment: fixed;align-items: center;}
+    #projects { background-image: url("assets/footer.png"); background-size: cover; align-items: center;}
+
+    h1, h2 {
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+    p {
+      max-width: 600px;
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    /* Project cards */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 900px;
+    }
+    .project-card {
+      background: rgba(255,255,255,0.1);
+      padding: 20px;
       border-radius: 8px;
-      padding: 10px;
+    }
+    .project-card h3 {
       margin-bottom: 10px;
     }
-    .priority {
-      font-size: 0.9em;
-      color: #1e3a8a;
+
+    /* Contact form */
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 350px;
     }
-    .subtasks {
-      margin-left: 20px;
-      margin-top: 8px;
-    }
-    .subtask {
-      background: #cbd5e1;
-      border-radius: 6px;
-      padding: 6px;
-      margin-bottom: 6px;
-    }
-    .notes {
-      font-size: 0.85em;
-      color: #555;
-      font-style: italic;
-      margin-top: 4px;
-      display: block;
-    }
-    #results {
-      margin-top: 20px;
+    form input, form textarea {
+      margin-bottom: 15px;
       padding: 10px;
-      background: #e2e8f0;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    form button {
+      padding: 10px;
+      background: #ff9800;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    form button:hover {
+      background: #e68900;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      h1, h2 { font-size: 1.5rem; }
+      p { font-size: 0.9rem; }
+      nav ul { flex-direction: column; }
+      nav ul li { margin: 8px 0; }
+    }
+
+    @media (max-width: 480px) {
+      section { padding: 20px 10px; }
+      h1, h2 { font-size: 1.3rem; }
+      p { font-size: 0.85rem; }
+      form { width: 100%; }
+    }
+    .marquee-container {
+    position: relative;
+    width: 80%;
+    overflow: hidden;
+    /* Fade edges using mask-image (works in modern browsers) */
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-repeat: no-repeat;
+    mask-size: 100% 100%;
+  }
+
+  .marquee {
+    display: flex;
+    animation: scroll-left 10s linear infinite;
+  }
+
+  .marquee span {
+    white-space: nowrap;
+    font-size: 2rem;
+    color: white;
+    padding: 0 2rem;
+  }
+
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-150%);
+    }
+  }
+  .glass-container {
+      backdrop-filter: blur(12px) saturate(150%);
+      -webkit-backdrop-filter: blur(12px) saturate(150%);
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 2rem;
+      max-width: 400px;
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    }
+
+    .glass-container h1 {
+      margin: 0 0 1rem;
+      font-size: 1.8rem;
+    }
+
+    .glass-container p {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+        .gradient-btn {
+      background: linear-gradient(135deg, #ff7e00, #db4e0c);
+      border: none;
       border-radius: 8px;
+      color: #fff;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      width: 250px;
+    }
+
+    .gradient-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    }
+
+    .gradient-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    }
+            .gradient-btn2 {
+      background: linear-gradient(135deg, #292929, #000000);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      width: 250px;
+    }
+
+    .gradient-btn2:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    }
+
+    .gradient-btn2:active {
+      transform: translateY(0);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
     }
   </style>
 </head>
 <body>
-  <center><img src="logo.png" style="width: 5%;"></center>
-  <br>
-  <h1>AutoMe</h1>
-  <h4>Welcome to AutoMe: your friendly Company Automation Calculator. Here's to make it quick and accurate:</h4>
-  <h5>
-    <b>
-      This application has a scope of Finance, HR, Customer Service, Supply Chain, Marketing, IT, Strategies, and Others automation computation for company processes.
-<br>
-<br>
-Instructions: <br></b>
-First, enter the type of operation, then enter the priority from 1-10 of your company on Priority Points.
-<br>
-Example: An IT tech company should have its IT operations the highest point because they prioritize IT.
-<br>
-Next, hit add operation and add a suboperation for that given operation. Add also how much the suboperation is automated on Automated%.
-<br>
-<br><b>
-      To ensure AI-human intervention balance:<br>    </b>
-      Finance - has suboperations with automation rates of 70-90%.<br>
-      HR - has suboperations with automation rates of 40-60%.<br>
-      Customer Service - has suboperations with automation rates of 50-70%.<br>
-      Supply Chain - has suboperations with automation rates of 40-60%.<br>
-      Marketing  - has suboperations with automation rates of 40-60%.<br>
-      IT - has suboperations with automation rates of 70-90%.<br>
-      Strategy - has suboperations with automation rates of less than 20%.<br>
-<br>
-*Enter 100 for Workload for standard percentage.<br>
-*For better calculations, do not skip an operation (Finance, HR, etc.) and suboperation if it is present in your company. When it is not automated yet, instead add every process and put zero if the whole process is not automated.
-  </h5>
 
-  <div class="task-input">
-    <select name="taskName" id="taskName">
-      <option value="Finance">Finance</option>
-      <option value="HR">HR</option>
-      <option value="Customer Service">Customer Service</option>
-      <option value="Supply Chain">Supply Chain</option>
-      <option value="Marketing">Marketing</option>
-      <option value="IT">IT</option>
-      <option value="Strategy">Strategy</option>
-      <option value="Strategy">Others</option>
-    </select>
-    <input type="number" id="taskPriority" placeholder="Priority Points" min="1" max="100" style="width:12%">
-    <button onclick="addTask()">Add Operation</button>
+  <!-- Navigation -->
+    <div class="nav" id="navbar">
+      <img src="assets/icon.png" style="width:50px">
+    <a href="#">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
   </div>
 
-  <div id="taskList"></div>
+  <!-- Sections -->
+  <section id="about">
+    <h4 style="color:grey">Dream | Automate | Innovate.
+    </h4>
+    <h1> I'm Leslie Emmanuel Reyes <br> <div style="color:rgb(255, 145, 19)">
+      <h6 style="font-size: x-small;">An AI specialist experienced in automating the unautomated.</h6></div></h1>
+    <a href = "https://docs.google.com/forms/d/e/1FAIpQLSfw2ht7mYA1tTfO8bvPK6ZsXls2e9SGJhR071-VyEnXehKtWQ/viewform?usp=header"><button class="gradient-btn">Contact Me</button></a>
+  </section>
 
-  <button onclick="computeResults()">Compute Results</button>
-  <div id="results"></div>
+  <section id="skills">
+    <h2>Skill Set</h2>
+    <div class="marquee-container">
+  <div class="marquee">
+        <span>
+     <div class="glass-container">
+    <h6>Marketing Strategist</h6>
+  </div>
+  </span>
+   <span>   <div class="glass-container">
+    <h6>Automation Savvy</h6>
+  </div>
+  </span>
+   <span>
+     <div class="glass-container">
+    <h6>Data-Driven</h6>
+  </div>
+  </span>
+   <span>
+         <div class="glass-container">
+    <h6>Active and Proactive</h6>
+  </div>
+  </span>
+    <span>
+     <div class="glass-container">
+    <h6>Marketing Strategist</h6>
+  </div>
+  </span>
+   <span>   <div class="glass-container">
+    <h6>Automation Savvy</h6>
+  </div>
+  </span>
+   <span>
+     <div class="glass-container">
+    <h6>Data-Driven</h6>
+  </div>
+  </span>
+   <span>
+         <div class="glass-container">
+    <h6>Active and Proactive</h6>
+  </div>
+  </span>
+  </div>
+</div>
+<br>
+<div class="marquee-container">
+  <div class="marquee">
+    <span>
+     <div class="glass-container">
+    <h6>Updated Researcher</h6>
+  </div>
+  </span>
+  <span>
+     <div class="glass-container">
+    <h6>Responsible and Responsive</h6>
+  </div>
+  </span>
+  <span>
+     <div class="glass-container">
+    <h6>Knowledgeable in AI tools</h6>
+  </div>
+  </span>
+  <span>
+     <div class="glass-container">
+    <h6>Keen Strategist</h6>
+  </div>
+</span>  
+<span>
+     <div class="glass-container">
+    <h6>Updated Researcher</h6>
+  </div>
+  </span>
+  <span>
+     <div class="glass-container">
+    <h6>Responsible and Responsive</h6>
+  </div>
+  </span>
+  <span>
+     <div class="glass-container">
+    <h6>Knowledgeable in AI tools</h6>
+  </div>
+  </span>
+  <span>
+     <div class="glass-container">
+    <h6>Keen Strategist</h6>
+  </div>
+</span>  
+</div>
+</div>
+  </section>
 
-  <script>
-    function addTask() {
-      const name = document.getElementById('taskName').value.trim();
-      const priority = document.getElementById('taskPriority').value;
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="project-grid">
+      <div class="project-card">
+        <h3>KBW Award Winning Capstone</h3>
+        <img src="assets/kbw.png" style="width: 100%;">
 
-      if (!name || !priority) return;
+        <p style="font-size: x-small;"><br>Our group's capstone project (in which I was the team lead) achieved various awards and participation from on-campus to national contests. It won Gawang Baste 2025, Best Capstone 2025 and was featured on CALABARZON Learning Resouce Expo as official entry of Ladislao Diwa Elementary School and on SIKAPTALA 2025 where it represented SSC-RdC in De Lasalle University - Dasmarinas.</p>
+      </div>
+      <div class="project-card">
+        <h3>AutoMe: Automation Estimate</h3>
+        <img src="assets/autome.jpg" style="width: 100%;">
 
-      const taskDiv = document.createElement('div');
-      taskDiv.className = 'task';
-      taskDiv.dataset.processPoints = priority; // store process points
+        <p style="font-size: x-small;">        <br>Companies like to flex AI integration, but it's not all about how much they integrate; it’s about automating smart. After studies and research on AI-driven efficiency, AutoMe: Automation Calculator helps companies forecast which processes to prioritize, locking in that golden sweet spot of automation percentage to keep AI-human intervention in balance and streamline processes with cautiousness. </p>
+      </div>
+      <div class="project-card">
+        <h3>GHL, Zapier and n8n Automation</h3>
+        <img src="assets/ghl.jpg" style="width: 100%;">
 
-      taskDiv.innerHTML = `
-        <strong>${name}</strong> 
-        <span class="priority">(Process Points: ${priority})</span>
-        <div class="subtask-input">
-          <input type="text" placeholder="Operation">
-          <input type="number" placeholder="Automated%" min="1" max="100">
-          <input type="number" value="100" placeholder="Workload" min="1">
-          <button>Add Suboperation</button>
-        </div>
-        <div class="subtasks"></div>
-      `;
+        <p style="font-size: x-small;">        <br>I specialized and was trained in n8n, Zapier and GHL automation primarily for lead generation, lead scoring and creation and integration of forms and website methodologies of collecting data from users as well as marketing strategies to collect and score leads through well-crafted sales funnels and created pipelines. I also handle internship works in the company.</p>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <a href = "https://docs.google.com/forms/d/e/1FAIpQLSfw2ht7mYA1tTfO8bvPK6ZsXls2e9SGJhR071-VyEnXehKtWQ/viewform?usp=header"><button class="gradient-btn2">Contact Me</button></a>
+  </section>
 
-      const subtaskBtn = taskDiv.querySelector('button');
-      subtaskBtn.addEventListener('click', () => {
-        const subtaskName = taskDiv.querySelector('.subtask-input input[placeholder="Operation"]').value.trim();
-        const subtaskPriority = taskDiv.querySelector('.subtask-input input[placeholder="Automated%"]').value;
-        const subtaskWorkload = taskDiv.querySelector('.subtask-input input[placeholder="Workload"]').value;
 
-        if (!subtaskName || !subtaskPriority || !subtaskWorkload) return;
-
-        const subtaskDiv = document.createElement('div');
-        subtaskDiv.className = 'subtask';
-        subtaskDiv.dataset.automated = subtaskPriority;
-        subtaskDiv.dataset.workload = subtaskWorkload;
-
-        subtaskDiv.innerHTML = `
-          ${subtaskName} <span class="priority">(Automated: ${subtaskPriority}%, Workload: ${subtaskWorkload})</span>
-        `;
-
-        taskDiv.querySelector('.subtasks').appendChild(subtaskDiv);
-
-        // Clear inputs
-        taskDiv.querySelector('.subtask-input input[placeholder="Operation"]').value = '';
-        taskDiv.querySelector('.subtask-input input[placeholder="Automated%"]').value = '';
-        taskDiv.querySelector('.subtask-input input[placeholder="Workload"]').value = '';
-      });
-
-      document.getElementById('taskList').appendChild(taskDiv);
-
-      document.getElementById('taskName').value = '';
-      document.getElementById('taskPriority').value = '';
-    }
-
-    function computeResults() {
-      const tasks = document.querySelectorAll('.task');
-      let totalProcessPoints = 0;
-      let processFinal = 0;
-      let output = "";
-
-      // First, sum all process points
-      tasks.forEach(task => {
-        totalProcessPoints += parseFloat(task.dataset.processPoints);
-      });
-
-      tasks.forEach(task => {
-        const subtasks = task.querySelectorAll('.subtask');
-        let sumAutomated = 0;
-        let sumWorkload = 0;
-
-        subtasks.forEach(subtask => {
-          sumAutomated += parseFloat(subtask.dataset.automated);
-          sumWorkload += parseFloat(subtask.dataset.workload);
-        });
-
-        let taskwhole = sumWorkload > 0 ? (sumAutomated / sumWorkload) * 100 : 0;
-        let processPoints = parseFloat(task.dataset.processPoints);
-        let processwhole = totalProcessPoints > 0 ? taskwhole * (processPoints / totalProcessPoints) : 0;
-
-        processFinal += processwhole;
-
-        output += `<p><strong>${task.querySelector('strong').innerText}</strong>: Task = ${taskwhole.toFixed(2)}%, Process = ${processwhole.toFixed(2)}%</p>`;
-      });
-
-      output += `<div id='textToCopy'><h3>My AutoMe processes has automation at = ${processFinal.toFixed(2)}%! <br><h6>#AutoMe #AIAutomation #AIRules</h6></h3><h6></div><br>Did you know that company automation should range from 50-60% to ensure ai-human balance?</h6><br>Found our application interesting? Hit share to spread the good word!<br><button onclick="copyDivText()">Share Results!</button>`;
-      document.getElementById('results').innerHTML = output;
-    }
-    function copyDivText() {
-    try {
-        // Get the text from the div
-        const text = document.getElementById("textToCopy").innerText;
-
-        // Use the modern Clipboard API
-        navigator.clipboard.writeText(text).then(() => {
-            alert("Text copied to clipboard!");
-        }).catch(err => {
-            console.error("Failed to copy text: ", err);
-            alert("Failed to copy text. Please try again.");
-        });
-    } catch (error) {
-        console.error("Unexpected error: ", error);
-    }
-}
-  </script>
 </body>
 </html>
