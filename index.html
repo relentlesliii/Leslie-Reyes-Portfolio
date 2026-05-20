@@ -165,6 +165,27 @@
       transform: translateX(-150%);
     }
   }
+
+  .marquee2 {
+    display: flex;
+    animation: scroll-right 10s linear infinite;
+  }
+
+  .marquee2 span {
+    white-space: nowrap;
+    font-size: 2rem;
+    color: white;
+    padding: 0 2rem;
+  }
+
+  @keyframes scroll-right {
+    0% {
+      transform: translateX(-150%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
   .glass-container {
       backdrop-filter: blur(12px) saturate(150%);
       -webkit-backdrop-filter: blur(12px) saturate(150%);
@@ -300,7 +321,7 @@
 </div>
 <br>
 <div class="marquee-container">
-  <div class="marquee">
+  <div class="marquee2">
     <span>
      <div class="glass-container">
     <h6>Updated Researcher</h6>
