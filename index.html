@@ -62,6 +62,9 @@
     /* Optional: ensure it covers the whole area */
     background-repeat: no-repeat;
     background-attachment: fixed;align-items: center;}
+        #history { background-image: url("tl.png"); background-size: cover; padding-left: 10%;
+          background-repeat: no-repeat;
+    background-attachment: fixed;align-items: center;}
     #projects { background-image: url("footer.png"); background-size: cover; align-items: center;}
 
     h1, h2 {
@@ -254,6 +257,113 @@
       transform: translateY(0);
       box-shadow: 0 3px 8px rgba(0,0,0,0.2);
     }
+    
+#scroll-wrapper { position: fixed; top: 0; left: 0; width: 100%; will-change: transform; }
+
+/* THE COMET LINE */
+.glass-conduit {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    width: 2px; top: 50vh; bottom: 50vh; background: rgba(255,255,255,0.05);
+}
+
+.comet-fill {
+    position: absolute; top: 0; width: 100%; height: 0%;
+    background: linear-gradient(to bottom, transparent, var(--blaze) 85%, #fff);
+    box-shadow: 0 0 20px var(--blaze);
+}
+
+.comet-spark {
+    position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%);
+    width: 4px; height: 60px; background: #fff;
+    box-shadow: 0 0 20px #fff, 0 0 40px var(--blaze); filter: blur(1px);
+}
+
+/* THE 3D BEZEL CARD */
+.glass-card {
+    position: relative; width: 420px;
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+    opacity: 0.5; transform: scale(0.9);
+}
+
+.bezel-shroud {
+    padding: 8px; /* Noticeable Thickness */
+    background: linear-gradient(145deg, #333 0%, #111 45%, #000 100%);
+    border-radius: var(--radius);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.8), inset 0 1px 2px rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.03);
+    transition: border-color 0.6s ease;
+}
+
+.content {
+    padding: 24px; /* Requirement: 24px padding each side */
+    display: flex; flex-direction: column; 
+    gap: 24px; /* Requirement: 24px vertical gap */
+    background: #0a0a0a;
+    border-radius: calc(var(--radius) - 6px);
+    position: relative; overflow: hidden;
+    transition: background 0.6s ease;
+}
+
+/* SPOTLIGHT & BORDER HIGHLIGHT */
+.timeline-item.active .glass-card { opacity: 1; transform: scale(1); }
+
+.timeline-item.active .bezel-shroud {
+    border-color: rgba(255, 103, 0, 0.3); /* Subtle highlighted border */
+}
+
+.timeline-item.active .content {
+    background: radial-gradient(circle at top left, rgba(255, 103, 0, 0.07) 0%, #0a0a0a 70%);
+    box-shadow: inset 0 0 30px rgba(255, 103, 0, 0.03);
+}
+
+/* TYPOGRAPHY REQUIREMENTS */
+.content h3 { 
+    font-size: 20px; line-height: 28px; /* Requirement: 20px/28px */
+    margin: 0; font-weight: 700; color: #fff; 
+}
+.content p { 
+    font-size: 14px; line-height: 20px; /* Requirement: 14px/20px */
+    margin: 0; color: #888; 
+}
+
+/* NODES & DYNAMIC PULSE */
+.node-wrapper { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 100; }
+.glass-sphere {
+    width: 14px; height: 14px; background: #000; border: 2px solid #333; border-radius: 50%;
+    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.timeline-item.active .glass-sphere {
+    background: #fff; transform: scale(1.6); border-color: var(--blaze);
+    box-shadow: 0 0 20px var(--blaze);
+}
+.timeline-item.active .glass-sphere::after {
+    content: ''; position: absolute; inset: -10px; border-radius: 50%;
+    border: 2px solid var(--blaze); animation: nodePulse 2s infinite;
+}
+
+@keyframes nodePulse {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(3.5); opacity: 0; }
+}
+
+/* ALTERNATING LAYOUT & SPACING */
+.timeline-item:nth-child(even) .glass-card { transform: translateX(-350px) scale(0.9); }
+.timeline-item:nth-child(odd) .glass-card { transform: translateX(350px) scale(0.9); }
+.timeline-item.active:nth-child(even) .glass-card { transform: translateX(-350px) scale(1); }
+.timeline-item.active:nth-child(odd) .glass-card { transform: translateX(350px) scale(1); }
+
+.status-label { letter-spacing: 10px; color: #1a1a1a; font-weight: 900; font-size: 11px; }
+
+/* MOBILE SYNC & ALIGNMENT */
+@media (max-width: 1024px) {
+    .glass-conduit, .node-wrapper { left: 45px; transform: none; }
+    .node-wrapper { transform: translateY(-50%); }
+    .timeline-item .glass-card { 
+        width: 60vw; margin-left: 125px; /* Spacing ensures no node overlap */
+        transform: scale(0.9) !important; 
+    }
+    .timeline-item.active .glass-card { transform: scale(1) !important; }
+}
   </style>
 </head>
 <body>
@@ -274,6 +384,7 @@
       <h6 style="font-size: x-small;">An AI specialist experienced in automating the unautomated.</h6></div></h1>
     <a href = "https://docs.google.com/forms/d/e/1FAIpQLSfw2ht7mYA1tTfO8bvPK6ZsXls2e9SGJhR071-VyEnXehKtWQ/viewform?usp=header"><button class="gradient-btn">Contact Me</button></a>
   </section>
+
 
   <section id="skills">
     <h2>Skill Set</h2>
@@ -365,6 +476,50 @@
 </div>
 </div>
   </section>
+ <section id="history">
+  <br>
+    <h2>Professional History</h2>
+        <div class="timeline-track">
+          <br>
+            <div class="step-unit timeline-item">
+                <div class="node-wrapper"></div>
+                <div class="glass-card">
+                    <div class="bezel-shroud">
+                        <div class="content">
+                            <h3>2021-2025</h3>
+                            <p>Graduated from San Sebastian College Recoletos de Cavite | BS Information Technology with a GWA of 1.28.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-unit timeline-item">
+                <div class="node-wrapper"></div>
+                <div class="glass-card">
+                    <div class="bezel-shroud">
+                        <div class="content">
+                            <h3>2025</h3>
+                            <p>Lead of Development Team for CABS-ITC as an IT intern.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-unit timeline-item">
+                <div class="node-wrapper"></div>
+                <div class="glass-card">
+                    <div class="bezel-shroud">
+                        <div class="content">
+                            <h3>2025 - Present</h3>
+                            <p>AI Developer at Sert Technology Incorporated. Developing agentic AI and lead generation strategies.</p>
+                        </div>
+                    </div>
+                </div>
+              </div>
+    </div>
+    <br>
+    <br>
+  </section>
 
   <section id="projects">
     <h2>Projects</h2>
@@ -395,6 +550,59 @@
     <a href = "https://docs.google.com/forms/d/e/1FAIpQLSfw2ht7mYA1tTfO8bvPK6ZsXls2e9SGJhR071-VyEnXehKtWQ/viewform?usp=header"><button class="gradient-btn2">Contact Me</button></a>
   </section>
 
+<script>
+  const wrapper = document.getElementById('scroll-wrapper');
+const items = document.querySelectorAll('.timeline-item');
+const progressLine = document.getElementById('progressLine');
 
+let targetY = 0, currentY = 0, velocity = 0, touchStartY = 0;
+const friction = 0.92, lerp = 0.1, sensitivity = 0.8;
+
+function update() {
+    velocity *= friction;
+    targetY += velocity;
+
+    const maxScroll = wrapper.scrollHeight - window.innerHeight;
+    targetY = Math.max(0, Math.min(targetY, maxScroll));
+    
+    currentY += (targetY - currentY) * lerp;
+    wrapper.style.transform = `translateY(${-currentY}px)`;
+
+    // PERFECT SYNC LOGIC
+    // Each step is exactly window.innerHeight (100vh)
+    const stepHeight = window.innerHeight;
+    const progress = (currentY / (items.length * stepHeight)) * 100;
+    progressLine.style.height = `${Math.max(0, Math.min(100, progress))}%`;
+
+    // ACTIVATION (Center of screen hits center of node)
+    const vCenter = currentY + (stepHeight / 2);
+    items.forEach((item, index) => {
+        const itemCenter = (index + 1) * stepHeight;
+        if (vCenter >= itemCenter - 15) {
+            item.classList.add('active');
+        } else {
+            item.classList.remove('active');
+        }
+    });
+
+    requestAnimationFrame(update);
+}
+
+// Input Handlers
+window.addEventListener('wheel', (e) => { velocity += e.deltaY * sensitivity; }, { passive: true });
+window.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; velocity = 0; }, { passive: true });
+window.addEventListener('touchend', (e) => {
+    const delta = touchStartY - e.changedTouches[0].clientY;
+    velocity = delta * 2.5; 
+}, { passive: true });
+
+window.addEventListener('load', () => {
+    document.body.style.height = wrapper.scrollHeight + 'px';
+    update();
+});
+window.addEventListener('resize', () => {
+    document.body.style.height = wrapper.scrollHeight + 'px';
+});
+</script>
 </body>
 </html>
